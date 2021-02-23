@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cnc-cqrs (0.1.0)
+    cnc-cqrs (0.4.1)
 
 GEM
   remote: https://rubygems.org/

@@ -6,9 +6,11 @@ module Cnc
   module Cqrs
     module CommandBus
 
-      def command(name, arguments = {})
-        Cnc::Cqrs::Command.stream = SecureRandom.uuid
-        Cnc::Cqrs::Record.create(stream: Cnc::Cqrs::Command.stream, command: name)
+      def command(name, arguments = {}, stream = nil)
+        Cnc::Cqrs::Command.stream = stream || SecureRandom.uuid
+
+        Cnc::Cqrs::Record.find_by(stream: Cnc::Cqrs::Command.stream) ||
+          Cnc::Cqrs::Record.create(stream: Cnc::Cqrs::Command.stream, command: name)
 
         resource = {
           params: params,
@@ -17,12 +19,14 @@ module Cnc
         }
         resource = resource.merge(arguments)
 
-        handle_command(name, resource)
+        handle_command(name, resource, stream)
       end
 
-      def handle_command(name, resource)
+      def handle_command(name, resource, stream)
         begin
           Cnc::Cqrs::CommandHandler.handle(name, resource)
+
+          return if stream.present?
 
           render json: resource[:response]
         rescue => e

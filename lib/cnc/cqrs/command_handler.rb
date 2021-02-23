@@ -13,6 +13,20 @@ module Cnc
 
           Cnc::Cqrs::EventBus.drive(resource, command)
         end
+
+        def execute(name, arguments = {}, stream = nil)
+          begin
+            Cnc::Cqrs::Command.stream = stream || SecureRandom.uuid
+
+            Cnc::Cqrs::Record.create(stream: Cnc::Cqrs::Command.stream, command: name)
+
+            handle(name, arguments)
+          rescue => e
+            Cnc::Cqrs::ErrorHandler.handle(e.message)
+
+            raise
+          end
+        end
       end
     end
   end

@@ -26,6 +26,9 @@ module Cnc
 
     # Main Event Source apadptor
     mattr_accessor :event_source, default: 'active_job'
+
+    # Main Event Source apadptor
+    mattr_accessor :tenant, default: nil
   end
 end
 
