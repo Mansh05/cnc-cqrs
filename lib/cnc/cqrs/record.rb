@@ -8,7 +8,9 @@ module Cnc
       field :command, type: String
       field :event, type: String
       field :event_errors, type: String
+      field :current_user, type: String
       field :data, type: Array, default: []
+      field :site, type: String
 
       def command_fulfiled?
         event.present?

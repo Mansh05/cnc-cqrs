@@ -10,7 +10,14 @@ module Cnc
         Cnc::Cqrs::Command.stream = stream || SecureRandom.uuid
 
         Cnc::Cqrs::Record.find_by(stream: Cnc::Cqrs::Command.stream) ||
-          Cnc::Cqrs::Record.create(stream: Cnc::Cqrs::Command.stream, command: name)
+          Cnc::Cqrs::Record.create(
+            {
+              command: name,
+              stream: Cnc::Cqrs::Command.stream,
+              current_user: current_user.uuid,
+              site: Cnc::Scope::Tenant.site
+            }
+          )
 
         resource = {
           params: params,
