@@ -14,7 +14,7 @@ module Cnc
             {
               command: name,
               stream: Cnc::Cqrs::Command.stream,
-              current_user: current_user.uuid,
+              current_user: current_user.present? ? current_user.uuid : 'public-view',
               site: Cnc::Scope::Tenant.site
             }
           )

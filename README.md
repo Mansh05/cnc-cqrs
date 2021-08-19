@@ -24,7 +24,7 @@ Or install it yourself as:
 
 In initializer
 
-```ruby 
+```ruby
 Cnc::Cqrs.setup do |config|
   config.file_path = "#{Rails.root}/cqrs" #This is the main root folder
   # where all the command files are there
@@ -37,11 +37,11 @@ Since we need to have adaptors for the event and command handlers.
 Currently we have two ways to do so
 
 1. Cnc Workflow
-  This gem is a gem for cnc which defines different workflow. It can 
+  This gem is a gem for cnc which defines different workflow. It can
   be configured with categories and it requrires cnc gem.
-  
-  As seen below the service requires 
-  
+
+  As seen below the service requires
+
   ```yml
     code: 'TENANT MS WORKFLOW'
     pipelines:
@@ -160,7 +160,7 @@ event: # If you have a event that needs to be triggered after the command, you d
 # How to setup the command bus
 
 you just need to include a module namely, include Cnc::Cqrs::CommandBus to the application controller.
-After that we can call out a command, with 
+After that we can call out a command, with
 
 ```ruby
   command('create_tenant') # THis create tenant is the command that we had created above in the yml file
@@ -190,3 +190,10 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Cnc::Cqrs project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/cnc-cqrs/blob/master/CODE_OF_CONDUCT.md).
+
+# Change Logs
+## 0.5.7
+Current user is not something which will always be present. If not present than its always treated as public view.
+
+## 0.5.8
+When executing the handler it should respond with the response object that it gives.

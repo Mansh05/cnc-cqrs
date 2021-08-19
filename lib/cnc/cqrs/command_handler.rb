@@ -21,6 +21,8 @@ module Cnc
             Cnc::Cqrs::Record.create(stream: Cnc::Cqrs::Command.stream, command: name)
 
             handle(name, arguments)
+
+            arguments[:response] || { done: true }
           rescue => e
             Cnc::Cqrs::ErrorHandler.handle(e.message)
 
