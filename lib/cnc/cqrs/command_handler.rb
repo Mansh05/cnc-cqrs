@@ -5,6 +5,11 @@ module Cnc
         def handle(name, resource)
           command = Cnc::Cqrs.commands[name.to_s]
 
+          # if command is not defined then raise a command not found error
+          if command.nil?
+            raise Cnc::Cqrs::CommandNotFound, "#{name} command not found, please check if the command exists or not"
+          end
+
           if command['handle_with']
             Cnc::Cqrs.handlers[command['handle_with']].new(command, resource).call
           else

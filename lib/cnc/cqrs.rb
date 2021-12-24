@@ -4,6 +4,8 @@ require 'yaml'
 module Cnc
   module Cqrs
     class Error < StandardError; end
+
+    class CommandNotFound < StandardError; end
     # Your code goes here...
 
     def self.setup
@@ -15,20 +17,50 @@ module Cnc
       Cnc::Cqrs::Configure.run(file_path)
     end
 
-    # This configuration will contain all the commands
-    mattr_accessor :commands, default: {}
+    # # This configuration will contain all the commands
+    @@commands = {}
 
-    # This is the default path that the will be looked into
-    mattr_accessor :file_path, default: ''
+    def self.commands
+      @@commands
+    end
 
-    # Main Adaptor to handle commands
-    mattr_accessor :handlers, default: {}
+    # # This is the default path that the will be looked into
+    @@file_path = ''
 
-    # Main Event Source apadptor
-    mattr_accessor :event_source, default: 'active_job'
+    def self.file_path
+      @@file_path
+    end
 
-    # Main Event Source apadptor
-    mattr_accessor :tenant, default: nil
+    def self.file_path=(path)
+      @@file_path = path
+    end
+
+    # # Main Adaptor to handle commands
+    @@handlers = {}
+    def self.handlers
+      @@handlers
+    end
+
+    # # Main Event Source adaptor
+    @@event_source = 'active_job'
+    def self.event_source
+      @@event_source
+    end
+
+    def self.event_source=(source)
+      @@event_source = source
+    end
+
+    # Main tenant source
+    @@tenant = nil
+
+    def self.tenant
+      @@tenant
+    end
+
+    def self.tenant=(tenant)
+      @@tenant = tenant
+    end
   end
 end
 
